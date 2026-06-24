@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kurt Gödel — the limits of proof</title>
+<meta name="description" content="LOGIKĒ X — Kurt Gödel (1906–1978). In 1931 he proved the incompleteness theorems: any consistent formal system strong enough for arithmetic contains true statements it cannot prove, and cannot prove its own consistency. His method — Gödel numbering, encoding statements as numbers so a system can talk about itself — is the rigorous root of 'code as data'. Live Gödel numbering and the self-referential sentence 'this statement is not provable'. It ended Hilbert's program and Leibniz's full dream: reasoning can be mechanised, but not completed. Honest: it's a precise result about formal provability — and the most misquoted theorem in history. David Lee Wise, two-layer honest.">
+<style>
+  :root{--bg:#0c0f17;--panel:#121622;--panel2:#19202f;--edge:#2a3346;--ink:#ede6d6;--dim:#b3ad9a;--faint:#7c7660;
+    --ochre:#d9b66a;--ochre2:#f0d79a;--proof:#5ad1ff;--proof2:#a7e6ff;--one:#7fe0a0;--zero:#fb7185;--amber:#fbbf24;--ember:#fb923c;
+    --mono:'SFMono-Regular',ui-monospace,'Cascadia Code',Menlo,Consolas,monospace;--serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);line-height:1.58;background-image:radial-gradient(1100px 560px at 75% -10%,#1c2436 0%,transparent 55%),radial-gradient(900px 500px at 0% 100%,#14110a 0%,transparent 55%);}
+  .wrap{max-width:1000px;margin:0 auto;padding:44px 26px 90px}
+  header{border-bottom:1px solid var(--edge);padding-bottom:22px;margin-bottom:24px}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ochre);opacity:.95}
+  h1{font-family:Georgia,serif;font-size:38px;line-height:1.08;margin:.3em 0 .14em;font-weight:600}h1 em{color:var(--ochre2);font-style:italic}
+  .who{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.04em}
+  .sub{color:var(--dim);font-size:16px;max-width:74ch;margin-top:14px}.sub b{color:var(--ink)}
+  .verdicts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:22px 0}@media(max-width:720px){.verdicts{grid-template-columns:1fr}}
+  .vc{border:1px solid var(--edge);border-radius:11px;padding:13px 15px;border-top-width:3px;background:rgba(18,22,34,.6)}
+  .vc .badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em}
+  .vc.s{border-top-color:var(--one)}.vc.s .badge{color:var(--one)} .vc.m{border-top-color:var(--amber)}.vc.m .badge{color:var(--amber)} .vc.f{border-top-color:var(--ember)}.vc.f .badge{color:var(--ember)}
+  .vc p{font-size:12px;color:var(--dim);margin:6px 0 0;line-height:1.45}.vc p b{color:var(--ink)}
+  section{margin:36px 0}
+  h2{font-size:13px;font-family:var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--ochre2);border-left:2px solid var(--ochre);padding-left:11px;margin:0 0 6px}
+  .lede{color:var(--dim);font-size:15px;margin:0 0 18px;max-width:80ch}
+  .panel{background:linear-gradient(180deg,var(--panel),#0a0d14);border:1px solid var(--edge);border-radius:14px;padding:20px;box-shadow:0 24px 60px -40px #000}
+  .controls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:14px}
+  .sym{font-family:var(--mono);font-size:14px;padding:7px 11px;border-radius:8px;border:1px solid var(--edge);background:#1a2030;color:var(--ink);cursor:pointer}.sym:hover{border-color:var(--ochre)}
+  button{font-family:var(--mono);font-size:12px;color:var(--ink);background:#1a2030;border:1px solid var(--edge);border-radius:8px;padding:8px 13px;cursor:pointer}button:hover{background:#222b3e;border-color:var(--ochre)}
+  .formula{font-family:var(--mono);font-size:22px;color:var(--proof2);background:#0c1622;border:1px solid var(--edge);border-radius:9px;padding:14px;text-align:center;min-height:54px;letter-spacing:3px}
+  .gnum{font-family:var(--mono);font-size:14px;color:var(--one);word-break:break-all;line-height:1.5;margin-top:12px;background:#0c1622;border:1px solid var(--edge);border-radius:9px;padding:12px}
+  .note{color:var(--dim);font-size:13.5px;border-left:2px solid var(--edge);padding-left:13px;margin:16px 0 0}.note b{color:var(--ink)}
+  .russell{text-align:center;padding:6px 0}
+  .rbtn{font-family:var(--mono);font-size:13px;padding:9px 16px;border-radius:9px;border:1px solid var(--edge);background:#1a2030;color:var(--ink);cursor:pointer;margin:0 5px}
+  .rout{font-family:Georgia,serif;font-size:15px;min-height:64px;margin-top:14px;color:var(--dim)}
+  .thm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}@media(max-width:620px){.thm{grid-template-columns:1fr}}
+  .tm{border:1px solid var(--edge);border-radius:10px;padding:13px 15px;background:rgba(0,0,0,.14)}.tm b{color:var(--ochre2);font-family:var(--mono);font-size:11px}.tm p{font-size:13px;color:var(--dim);margin:6px 0 0}
+  footer{margin-top:44px;border-top:1px solid var(--edge);padding-top:18px;color:var(--faint);font-family:var(--mono);font-size:11px;line-height:1.7}
+  footer a,.bar2 a{color:var(--ochre)}.bar2{font-family:var(--mono);font-size:11.5px;margin-bottom:16px}.bar2 a{text-decoration:none;border-bottom:1px dotted #4a4126}
+  code{font-family:var(--mono);color:var(--ochre2);background:#15120a;padding:1px 5px;border-radius:5px}
+  blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--ochre);color:var(--ink);font-style:italic;font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="bar2"><a href="https://davidwise01.github.io/ud0/">◄ UD0</a> &nbsp; <a href="https://davidwise01.github.io/gottlob-frege/">← Frege</a> &nbsp; LOGIKĒ · X</div>
+<header>
+  <div class="kicker">LOGIKĒ · X · the limits of proof</div>
+  <h1>Kurt <em>Gödel</em></h1>
+  <div class="who">1906 – 1978 · Brno &amp; Princeton · the Institute for Advanced Study · Einstein's closest friend there</div>
+  <div class="sub">Leibniz dreamed of a calculation that settles every question; Hilbert turned it into a program — find one complete, consistent, mechanical system that proves all of mathematics. In 1931 a shy twenty-five-year-old ended that dream forever. Gödel showed that any system strong enough to do arithmetic, if it is consistent, must contain <b>statements that are true but that it cannot prove</b> — and can never prove its own consistency. His trick was to make the system <em>talk about itself</em> by turning its sentences into numbers — the same move that lets a program be data, and that the whole of computing would be built on.</div>
+</header>
+<div class="verdicts">
+  <div class="vc s"><span class="badge">✓ STRONG</span><p><b>Proven, and profound.</b> The two incompleteness theorems are rigorous and among the deepest results in all of mathematics — true-but-unprovable statements exist; no consistent arithmetic proves its own consistency.</p></div>
+  <div class="vc m"><span class="badge">◐ LIMITED SCOPE</span><p><b>It bounds formalism, not truth.</b> It applies only to <em>consistent</em> systems strong enough for arithmetic, and is about <b>formal provability</b> — not knowledge, certainty, or whether math "works." It does not say math is broken.</p></div>
+  <div class="vc f"><span class="badge">◔ MOST MISQUOTED</span><p><b>Beware the pop version.</b> It's endlessly abused for relativism, "no absolute truth," theology and consciousness. Nearly all such uses are <b>wrong</b> — it's a precise theorem, not a mood.</p></div>
+</div>
+
+<section>
+  <h2>I · Gödel numbering — a statement becomes a number</h2>
+  <p class="lede">The key idea, and it's gorgeous: give each symbol a code, then encode a whole formula as a single number by raising successive <b>primes</b> to those codes and multiplying. By unique factorisation, that number decodes back to exactly one formula. So <em>every statement is a number</em> — which means arithmetic, the thing the system reasons about, can secretly encode <em>statements about the system itself</em>. Build a formula and watch it become an integer.</p>
+  <div class="panel">
+    <div class="controls" id="palette"></div>
+    <div class="controls"><button id="clear">clear</button><span class="mono" style="font-size:11px;color:var(--faint)">tap symbols to build a formula</span></div>
+    <div class="formula" id="formula">0 = 0</div>
+    <div class="gnum" id="gnum"></div>
+    <div class="note">A formula and a number are now interchangeable — this is the rigorous form of Leibniz's prime trick, and the exact reason <b>code can be data</b>: a program is just a (very large) number. Stored-program computing lives here.</div>
+  </div>
+</section>
+
+<section>
+  <h2>II · The sentence that defeats proof</h2>
+  <p class="lede">Now point the encoding at itself. Using numbering, Gödel built a sentence <b>G</b> that, decoded, says precisely: <em>"G is not provable in this system."</em> A statement about provability — which is now just arithmetic — that refers to its own number. Then ask whether the system can prove it.</p>
+  <div class="panel">
+    <div class="russell">
+      <div style="font-family:Georgia;font-size:17px;margin-bottom:12px">G says: &nbsp;<em>"G cannot be proved in this system."</em> &nbsp; Can the system prove G?</div>
+      <button class="rbtn" id="gyes">suppose it proves G</button><button class="rbtn" id="gno">suppose it can't</button>
+      <div class="rout" id="gout">Pick one — and corner the system.</div>
+    </div>
+    <div class="note" id="concl" style="margin-top:14px">Both doors lead the same place: a <b>consistent</b> system has true statements it cannot reach. Truth outruns proof.</div>
+  </div>
+  <blockquote>"The more I think about language, the more it amazes me that people ever understand each other at all." <span style="color:var(--faint);font-style:normal;font-size:12px">— Kurt Gödel</span></blockquote>
+</section>
+
+<section>
+  <h2>III · The two theorems, the fall, the man</h2>
+  <div class="thm">
+    <div class="tm"><b>FIRST INCOMPLETENESS</b><p>Any consistent formal system rich enough for arithmetic has <b>true statements it cannot prove</b>. Completeness and consistency cannot both be had.</p></div>
+    <div class="tm"><b>SECOND INCOMPLETENESS</b><p>Such a system <b>cannot prove its own consistency</b> — no formal foundation can certify itself from the inside.</p></div>
+  </div>
+  <p class="lede" style="margin-top:16px">This detonated <b>Hilbert's program</b> — and with it the formal heir of Leibniz's "Calculemus." There is no single machine that decides all mathematical truth. Five years later Turing would recast the same diagonal as the <b>halting problem</b>: not only is truth unreachable, some questions are uncomputable. Reasoning can be mechanised — that became your computer — but it cannot be <em>completed</em>.</p>
+  <p class="note" style="border-color:var(--amber)"><b style="color:var(--amber)">Gate kept on.</b> Hold two things at once. The theorems are <b>airtight and shattering</b> — among the summits of human thought. And they are the <b>most abused results in history</b>: incompleteness does <em>not</em> say "nothing can be proven," "there is no truth," or "everything is uncertain." It is narrow and exact — about <em>formal provability</em> inside <em>consistent</em> systems that can express <em>arithmetic</em> — and the Gödel sentence is in fact <b>true</b> (we can see it from outside); it simply can't be proved <em>inside</em>. Mathematics did not break; it learned its own horizon. The man: Gödel escaped Austria via the Trans-Siberian railway, became Einstein's daily walking companion at Princeton, found a supposed loophole for a dictatorship in the U.S. Constitution at his own citizenship hearing, and — gripped by a paranoid fear of poisoning — would eat only food his wife prepared. When she was hospitalised in 1977, he stopped eating, and died of starvation at 71. The logician who proved the limits of certainty was undone by an excess of doubt.</p>
+</section>
+
+<footer>
+  KURT GÖDEL · LOGIKĒ X · two-layer honest<br>
+  live Gödel numbering (formula → ∏ prime_i^code_i via BigInt; a statement IS a number) · the self-referential sentence "G is not provable" (both branches force incompleteness)<br>
+  Incompleteness theorems (1931) ended Hilbert's program &amp; Leibniz's full dream · numbering = the rigorous root of "code as data" · the most misquoted theorem in history<br>
+  ← <a href="https://davidwise01.github.io/gottlob-frege/">Frege</a> · next → <b>Turing</b> (computability, the machine, the halting problem) · Shannon (the gate)<br>
+  LOGIKĒ · the lineage of logical mathematics · governor David Lee Wise · CC-BY-ND-4.0
+</footer>
+</div>
+<script>
+"use strict";
+// MODULE I : Gödel numbering
+(function(){
+  const SYM=[['0',1],['s',2],['=',3],['(',4],[')',5],['∃',6],['x',7],['¬',8],['∨',9],['→',10]];
+  let formula=[['0',1],['=',3],['0',1]];
+  const primes=[2n,3n,5n,7n,11n,13n,17n,19n,23n,29n,31n,37n,41n,43n,47n];
+  document.getElementById('palette').innerHTML=SYM.map(([s,c])=>'<span class="sym" data-s="'+s+'" data-c="'+c+'">'+s+' <span style="color:var(--faint);font-size:10px">'+c+'</span></span>').join('');
+  function ipow(b,e){let r=1n;for(let i=0;i<e;i++)r*=b;return r;}
+  function render(){
+    document.getElementById('formula').textContent=formula.map(f=>f[0]).join(' ')||'(empty)';
+    if(!formula.length){document.getElementById('gnum').textContent='';return;}
+    let g=1n;formula.forEach((f,i)=>{g*=ipow(primes[i],f[1]);});
+    const calc=formula.map((f,i)=>primes[i]+'^'+f[1]).join(' · ');
+    const s=g.toString();
+    const shown=s.length<=60?s:(s.slice(0,40)+'… ('+s.length+' digits)');
+    document.getElementById('gnum').innerHTML='<span style="color:var(--faint)">Gödel number = '+calc+' =</span><br><b>'+shown+'</b>';
+  }
+  document.getElementById('palette').querySelectorAll('.sym').forEach(el=>el.onclick=()=>{if(formula.length<12)formula.push([el.dataset.s,+el.dataset.c]);render();});
+  document.getElementById('clear').onclick=()=>{formula=[];render();};
+  render();
+})();
+// MODULE II : the Gödel sentence
+(function(){
+  const out=document.getElementById('gout');
+  document.getElementById('gyes').onclick=()=>{out.innerHTML='If the system <b>proves</b> G, then G is provable. But G <em>says</em> "G is not provable" — so the system has proved something <b>false</b>. A consistent system never does that. <b style="color:var(--ember)">So a consistent system cannot prove G.</b>';};
+  document.getElementById('gno').onclick=()=>{out.innerHTML='If the system <b>cannot prove</b> G, then what G asserts — "G is not provable" — is exactly <b>true</b>. So G is a <b style="color:var(--one)">true statement the system cannot prove.</b> Incompleteness. ✓';};
+})();
+</script>
+</body>
+</html>
