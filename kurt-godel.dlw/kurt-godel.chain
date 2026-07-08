@@ -1,0 +1,9 @@
+ROOT0-DLW-CHAIN-v1
+index : 999
+slug  : kurt-godel
+seal  : d2256253dbe90906362632c53d7634ebbeba14c6462153b79d960286e66c2985
+prev  : 2ae521b8def820f0719ec102033522ac20b3be96e56a206fd835d7f91a829729
+link  : e6a7091969f96c35a51eb9fcae36b56161e74a05cf2ba473b9b68a48ff811911
+head  : 3447d3a0533aaf1e29a8bdc67a9774884fb3ae9dbc8a17064b7a008ca3c4ec90
+
+— the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
